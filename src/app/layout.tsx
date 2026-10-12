@@ -1,30 +1,33 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Junior Mbadinga — Motion Designer & Créateur Audiovisuel",
   description:
-    "Portfolio de Junior Mbadinga, Motion Designer & Créateur Audiovisuel basé à Libreville, Gabon. Motion Design 2D, réalisation, montage, sound design et streaming live.",
+    "Portfolio de Junior Mbadinga, Motion Designer & Créateur Audiovisuel basé à Libreville, Gabon.",
   keywords: [
     "Junior Mbadinga",
     "Motion Designer",
     "Créateur Audiovisuel",
     "Libreville",
     "Gabon",
-    "Motion Design 2D",
-    "Audiovisuel",
-    "Réalisation",
-    "Montage",
-    "Sound Design",
   ],
   authors: [{ name: "Junior Mbadinga" }],
   icons: {
@@ -53,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} font-montserrat antialiased bg-background text-foreground`}
+        className={`${fraunces.variable} ${manrope.variable} font-sans antialiased`}
       >
         {children}
         <Toaster />
