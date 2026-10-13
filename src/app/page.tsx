@@ -276,7 +276,7 @@ function Hero() {
           <div className="mx-auto max-w-[380px]" ref={portraitRef}>
             <div className="photo-frame">
               <img
-                src="/portfolio/portrait.jpg"
+                src="/Junior-Mbadinga/portfolio/portrait.jpg"
                 alt="Junior Mbadinga"
                 loading="eager"
               />
@@ -301,7 +301,7 @@ function About() {
           <div className="reveal reveal-d1 lg:col-span-7" ref={photoRef}>
             <div className="photo-frame">
               <img
-                src="/portfolio/about.jpg"
+                src="/Junior-Mbadinga/portfolio/about.jpg"
                 alt="Junior Mbadinga en plein travail"
                 loading="lazy"
               />
@@ -330,7 +330,7 @@ function CameraBanner() {
       <div className="camera-banner-grid">
         <div className="camera-banner-photo" ref={ref}>
           <img
-            src="/portfolio/project-live.jpg"
+            src="/Junior-Mbadinga/portfolio/project-live.jpg"
             alt="Junior Mbadinga en captation, caméra à l'épaule"
             loading="lazy"
           />
