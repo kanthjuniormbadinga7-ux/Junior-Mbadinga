@@ -306,47 +306,42 @@ function Hero() {
       <div className="wrap grid items-center gap-14 lg:grid-cols-12">
         {/* Texte */}
         <div className="lg:col-span-7">
-          <div className="reveal eyebrow">
-            <span className="idx">01</span>Portfolio — Libreville, Gabon
-          </div>
-
-          <h1 className="hero-name reveal reveal-d1 mt-6">
-            Junior
+          <h1 className="hero-name reveal reveal-d1">
+            Monteur,
             <br />
-            Mbadinga<em>.</em>
+            <em className="italic">Motion Designer</em>.
           </h1>
 
-          <p className="role-line reveal reveal-d2 mt-8">
-            Motion Designer
-            <span className="sep">/</span>
-            Créateur Audiovisuel
+          <p className="lede reveal reveal-d2 mt-8 max-w-md">
+            Montage, motion design 2D et sound design au service de vos
+            projets audiovisuels.
           </p>
 
           <div className="reveal reveal-d3 mt-10 flex flex-wrap items-center gap-4">
             <button onClick={() => go("#about")} className="btn btn-solid">
-              À propos de moi
+              À propos
               <ArrowRight size={16} />
             </button>
             <button onClick={() => go("#contact")} className="btn btn-line">
               Me contacter
             </button>
           </div>
+
+          <p className="reveal reveal-d3 mt-10 flex items-center gap-2 text-sm font-medium text-ink-3">
+            <MapPin size={15} className="text-accent" />
+            Libreville, Gabon
+          </p>
         </div>
 
-        {/* Portrait éditorial */}
+        {/* Portrait */}
         <div className="reveal reveal-d2 lg:col-span-5">
-          <div className="relative mx-auto max-w-[360px]">
-            <div className="aspect-[4/5] overflow-hidden">
+          <div className="mx-auto max-w-[380px]">
+            <div className="photo-frame aspect-[4/5]">
               <img
                 src="/portfolio/portrait.jpg"
-                alt="Junior Mbadinga, Motion Designer & Créateur Audiovisuel"
-                className="hero-photo"
+                alt="Junior Mbadinga"
                 loading="eager"
               />
-            </div>
-            <div className="mt-4 flex items-center justify-between">
-              <span className="eyebrow">Junior Mbadinga</span>
-              <span className="eyebrow text-ink-3">2026</span>
             </div>
           </div>
         </div>
@@ -363,17 +358,12 @@ function About() {
   return (
     <section id="about" className="section">
       <div className="wrap">
-        <div className="reveal eyebrow">
-          <span className="idx">02</span>À propos
-        </div>
-
-        <div className="mt-10 grid items-start gap-12 lg:grid-cols-12">
+        <div className="grid items-start gap-12 lg:grid-cols-12">
           <div className="reveal reveal-d1 lg:col-span-5">
-            <div className="aspect-[4/5] overflow-hidden">
+            <div className="photo-frame aspect-[4/5]">
               <img
                 src="/portfolio/about.jpg"
                 alt="Junior Mbadinga en plein travail"
-                className="about-photo"
                 loading="lazy"
               />
             </div>
@@ -417,24 +407,15 @@ function Skills() {
   return (
     <section id="skills" className="section">
       <div className="wrap">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <div className="reveal eyebrow">
-              <span className="idx">03</span>Compétences
-            </div>
-            <h2 className="display reveal reveal-d1 mt-6 text-3xl sm:text-4xl md:text-5xl">
-              Ce que je sais <em className="italic text-accent">faire</em>.
-            </h2>
-          </div>
-          <p className="reveal reveal-d2 lede lg:col-span-4 lg:text-right">
-            Un cocktail de compétences techniques et créatives au service de
-            vos idées.
-          </p>
-        </div>
+        <p className="reveal lede max-w-2xl">
+          Un cocktail de compétences techniques et créatives — montage, motion
+          design 2D, sound design, captation et rigueur — au service de vos
+          idées.
+        </p>
 
         <div className="reveal reveal-d2 mt-14 border-t border-[var(--line)]">
           <div className="grid md:grid-cols-2 md:gap-x-14">
-            {SKILLS.map((s, i) => {
+            {SKILLS.map((s) => {
               const Icon = s.icon;
               return (
                 <div key={s.title} className="skill-row">
@@ -442,13 +423,8 @@ function Skills() {
                     <Icon size={20} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <div className="flex items-center gap-3">
-                      <span className="skill-idx">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="skill-title">{s.title}</h3>
-                    </div>
-                    <p className="skill-desc">{s.desc}</p>
+                    <h3 className="skill-title">{s.title}</h3>
+                    <p className="skill-desc mt-1">{s.desc}</p>
                   </div>
                 </div>
               );
@@ -487,12 +463,7 @@ function VideoCard({
       </div>
 
       <div className="mt-5 flex items-baseline justify-between gap-4">
-        <div className="flex items-baseline gap-3">
-          <span className="skill-idx">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <h3 className="display text-xl sm:text-2xl">{video.title}</h3>
-        </div>
+        <h3 className="display text-xl sm:text-2xl">{video.title}</h3>
         <span className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-3">
           {video.year}
         </span>
@@ -509,20 +480,10 @@ function Videos() {
   return (
     <section id="videos" className="section">
       <div className="wrap">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <div className="reveal eyebrow">
-              <span className="idx">04</span>Vidéos
-            </div>
-            <h2 className="display reveal reveal-d1 mt-6 text-3xl sm:text-4xl md:text-5xl">
-              Mes <em className="italic text-accent">créations</em>.
-            </h2>
-          </div>
-          <p className="reveal reveal-d2 lede lg:col-span-4 lg:text-right">
-            Motion design, documentaire et captation live — un aperçu de mon
-            travail en audiovisuel.
-          </p>
-        </div>
+        <p className="reveal lede max-w-2xl">
+          Motion design, documentaire et captation live — un aperçu de mon
+          travail en audiovisuel.
+        </p>
 
         <div className="mt-16 grid gap-12 lg:gap-16">
           {VIDEOS.map((v, i) => (
@@ -542,16 +503,9 @@ function Formation() {
   return (
     <section id="formation" className="section">
       <div className="wrap">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <div className="reveal eyebrow">
-              <span className="idx">05</span>Formation
-            </div>
-            <h2 className="display reveal reveal-d1 mt-6 text-3xl sm:text-4xl md:text-5xl">
-              Mon <em className="italic text-accent">parcours</em>.
-            </h2>
-          </div>
-        </div>
+        <p className="reveal lede max-w-2xl">
+          Mon parcours de formation en audiovisuel et cinéma.
+        </p>
 
         <div className="reveal reveal-d2 mt-14 max-w-3xl">
           <div className="timeline">
@@ -630,10 +584,7 @@ function Contact() {
         <div className="grid gap-14 lg:grid-cols-12">
           {/* Left */}
           <div className="lg:col-span-5">
-            <div className="reveal eyebrow">
-              <span className="idx">06</span>Contact
-            </div>
-            <h2 className="display reveal reveal-d1 mt-6 text-4xl sm:text-5xl md:text-6xl">
+            <h2 className="display reveal reveal-d1 text-4xl sm:text-5xl md:text-6xl">
               Travaillons
               <br />
               <em className="italic text-accent">ensemble</em>.
@@ -751,7 +702,7 @@ function Footer() {
             <span className="text-accent">.</span>
           </p>
           <p className="mt-1 text-xs uppercase tracking-[0.2em] text-ink-3">
-            Motion Designer & Créateur Audiovisuel — © 2026
+            Monteur, Motion Designer — © 2026
           </p>
         </div>
 
@@ -763,14 +714,6 @@ function Footer() {
             className="footer-link inline-flex items-center gap-1.5"
           >
             LinkedIn <ArrowUpRight size={13} />
-          </a>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-link inline-flex items-center gap-1.5"
-          >
-            GitHub <ArrowUpRight size={13} />
           </a>
           <a
             href="mailto:kanthjuniormbadinga7@gmail.com"

@@ -82,3 +82,26 @@ Stage Summary:
 - 3 vidéos placeholder en place (visibles dans la preview). Pour brancher les vraies : compresser et remplacer les fichiers dans public/videos/ en gardant les mêmes noms (spot-agl.mp4, ecole-sante.mp4, regie-live.mp4).
 - README.md dans public/videos/ documente les réglages d'encodage (H.264, 720p/1080p, 2-4 Mbps, faststart) + commandes ffmpeg + instructions HandBrake.
 - Style éditorial sombre conservé. Lecteur natif avec contrôles tintés champagne. Responsive desktop + mobile. Lint propre.
+
+---
+Task ID: 5
+Agent: Z.ai Code (main)
+Task: Nettoyage du portfolio — retirer les mentions "portfolio" et eyebrows numérotés, meilleur cadre photo, titres décoratifs remplacés par synthèses simples, titre hero = "Monteur, Motion Designer", retirer GitHub du footer, meilleure interface.
+
+Work Log:
+- Hero refondu : supprimé l'eyebrow "01 Portfolio — Libreville, Gabon", le nom "Junior Mbadinga" en grand titre, et la role-line "Motion Designer / Créateur Audiovisuel". Nouveau titre : "Monteur, Motion Designer." (Fraunces, "Motion Designer" en italique accent champagne). Synthèse : "Montage, motion design 2D et sound design au service de vos projets audiovisuels." Boutons "À propos" + "Me contacter". Localisation "Libreville, Gabon" avec pin champagne.
+- Cadre photo éditorial : créé .photo-frame dans globals.css (effet tirage monté en décalé : fine bordure offset en bas-droite derrière la photo, qui passe en accent champagne au hover + la photo se désature/se réchauffe). Appliqué au portrait hero ET à la photo about. Media query mobile pour réduire l'offset.
+- Skills : supprimé l'eyebrow "03 Compétences" + le titre "Ce que je sais faire." + les numéros 01/02 par compétence. Remplacé par une synthèse simple en lede, puis la liste des compétences (icône + titre + desc).
+- Videos : supprimé l'eyebrow "04 Vidéos" + le titre "Mes créations." + le numéro par vidéo. Remplacé par une synthèse simple, puis les cartes vidéo.
+- Formation : supprimé l'eyebrow "05 Formation" + le titre "Mon parcours." Remplacé par une synthèse "Mon parcours de formation en audiovisuel et cinéma." puis la timeline.
+- Contact : supprimé l'eyebrow "06 Contact". Conservé le titre "Travaillons ensemble." (CTA meaningful).
+- Footer : supprimé le lien GitHub. Conservé LinkedIn + Email. Sous-titre mis à jour : "Monteur, Motion Designer — © 2026" (au lieu de "Motion Designer & Créateur Audiovisuel").
+- Nettoyé le CSS mort (.hero-photo, .about-photo, .role-line) remplacé par .photo-frame unifié.
+- Vérifié via Agent Browser : DOM confirme — pas de "Portfolio" ni "Mbadinga" dans le hero, pas d'eyebrow numéroté nulle part, pas de "Ce que je sais"/"créations"/titre Formation. Footer sans GitHub. Titre hero = "Monteur, Motion Designer." Cadre photo offset visible. Mobile 390px : pas d'overflow (hero ET about). Lint 0 erreur.
+
+Stage Summary:
+- Interface épurée : plus d'eyebrows numérotés (01-06), plus de titres décoratifs "Ce que je sais faire" / "Mes créations" / "Mon parcours". Chaque section commence par une synthèse simple.
+- Hero centré sur le métier : "Monteur, Motion Designer." + synthèse + localisation. Le nom est porté par la navbar et le footer.
+- Cadre photo éditorial raffiné (offset mount) sur le portrait hero et la photo about, avec interaction au hover.
+- Footer allégé : LinkedIn + Email seulement. Sous-titre aligné au nouveau titre.
+- Vidéos locales <video> conservées. Mobile responsive. Lint propre.
