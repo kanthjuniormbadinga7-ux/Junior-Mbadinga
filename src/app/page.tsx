@@ -20,6 +20,7 @@ import {
 const NAV_LINKS = [
   { label: "Accueil", href: "#hero" },
   { label: "À propos", href: "#about" },
+  { label: "Travaux", href: "#travaux" },
   { label: "Formation", href: "#formation" },
   { label: "Contact", href: "#contact" },
 ];
@@ -36,6 +37,39 @@ const TIMELINE = [
     title: "Baccalauréat Série Littéraire",
     place: "Gabon",
     desc: "Obtention du baccalauréat série L, fondement d'une sensibilité narrative et créative.",
+  },
+];
+
+/*
+ * TRAVAUX — embeds YouTube.
+ * Le spot AGL est mis en vedette (autoplay + mute, conformément aux règles
+ * des navigateurs modernes). Les autres vidéos se lancent au clic.
+ */
+const FEATURED_VIDEO = {
+  id: "UQqeJcMtSI0",
+  title: "Spot Institutionnel — AGL",
+  year: "2026",
+  desc: "Motion design 2D isométrique, 30 secondes — master TV + version web.",
+};
+
+const VIDEOS = [
+  {
+    id: "-Hip-G_fyDc",
+    title: "Documentaire — École de Santé de Libreville",
+    year: "2025-2026",
+    desc: "Réalisation & montage — film documentaire institutionnel.",
+  },
+  {
+    id: "t_Hq5no7Q3k",
+    title: "Régie Live & Streaming",
+    year: "2025",
+    desc: "Captation & diffusion live — conférences et matchs universitaires.",
+  },
+  {
+    id: "KQeqlzQcWfQ",
+    title: "Création audiovisuelle",
+    year: "2025",
+    desc: "Montage & motion design.",
   },
 ];
 
@@ -293,6 +327,107 @@ function About() {
 }
 
 /* ============================================================
+   CAMERA BANNER — bannière cinématique parallaxe
+   ============================================================ */
+
+function CameraBanner() {
+  const ref = useParallax<HTMLDivElement>(0.12);
+  return (
+    <section className="camera-banner reveal">
+      <div className="camera-banner-img" ref={ref}>
+        <img
+          src="/portfolio/project-live.jpg"
+          alt="Junior Mbadinga en captation, caméra à l'épaule"
+          loading="lazy"
+        />
+      </div>
+      <div className="camera-banner-overlay" />
+      <p className="camera-banner-caption">
+        En captation — la caméra à l'épaule, le regard partout.
+      </p>
+    </section>
+  );
+}
+
+/* ============================================================
+   TRAVAUX — embeds YouTube (AGL en vedette + 3 vidéos)
+   ============================================================ */
+
+function FeaturedVideo() {
+  const src = `https://www.youtube.com/embed/${FEATURED_VIDEO.id}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=${FEATURED_VIDEO.id}&playsinline=1&controls=1`;
+  return (
+    <article className="reveal featured-video">
+      <div className="video-eyebrow">
+        <span className="video-eyebrow-dot" /> À la une
+      </div>
+      <div className="embed-wrap embed-wrap-lg">
+        <iframe
+          src={src}
+          title={FEATURED_VIDEO.title}
+          loading="eager"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      </div>
+      <div className="featured-meta">
+        <h3 className="display text-2xl sm:text-3xl md:text-4xl">
+          {FEATURED_VIDEO.title}
+          <span className="text-accent"> — {FEATURED_VIDEO.year}</span>
+        </h3>
+        <p className="lede mt-4 max-w-2xl">{FEATURED_VIDEO.desc}</p>
+      </div>
+    </article>
+  );
+}
+
+function VideoCard({
+  video,
+  index,
+}: {
+  video: (typeof VIDEOS)[number];
+  index: number;
+}) {
+  const src = `https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1`;
+  return (
+    <article
+      className="reveal video-card"
+      style={{ transitionDelay: `${index * 90}ms` }}
+    >
+      <div className="embed-wrap">
+        <iframe
+          src={src}
+          title={video.title}
+          loading="lazy"
+          allow="encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      </div>
+      <div className="video-card-meta">
+        <h3 className="display text-lg sm:text-xl">{video.title}</h3>
+        <span className="video-year">{video.year}</span>
+      </div>
+      <p className="video-desc">{video.desc}</p>
+    </article>
+  );
+}
+
+function Travaux() {
+  return (
+    <section id="travaux" className="section">
+      <div className="wrap">
+        <FeaturedVideo />
+
+        <div className="videos-grid mt-20">
+          {VIDEOS.map((v, i) => (
+            <VideoCard key={v.id} video={v} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
    FORMATION
    ============================================================ */
 
@@ -540,6 +675,8 @@ export default function Home() {
         <Hero />
         <div className="rule" />
         <About />
+        <CameraBanner />
+        <Travaux />
         <div className="rule" />
         <Formation />
         <Contact />

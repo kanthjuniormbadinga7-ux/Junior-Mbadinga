@@ -169,3 +169,26 @@ Stage Summary:
 - Photos affichées entières à leur ratio naturel (plus de crop CSS). Hero = portrait carré 1:1, About = photo 2:3 verticale.
 - Animations premium : reveal avec fade+slide+scale+blur (expo-out 1.1s), page load fade-in échelonné, parallaxe subtile sur les 2 photos, boutons avec lift+scale+shadow, hover photos doux et lent.
 - Mobile responsive. Lint propre.
+
+---
+Task ID: 9
+Agent: Z.ai Code (main)
+Task: Ajouter l'image caméra (project-live.jpg), intégrer 4 embeds YouTube (AGL en vedette avec autoplay+mute, 3 autres sans autoplay) dans une section Travaux.
+
+Work Log:
+- Extrait les 4 IDs YouTube des liens fournis : UQqeJcMtSI0 (AGL, featured), -Hip-G_fyDc, t_Hq5no7Q3k, KQeqlzQcWfQ.
+- Ajouté le tableau FEATURED_VIDEO (AGL) + VIDEOS (3 autres) dans page.tsx.
+- Créé le composant CameraBanner : bannière plein écran (62vh, min 380px, max 640px) avec l'image project-live.jpg (Junior tenant la caméra Panasonic), parallaxe (strength 0.12), overlay gradient sombre, caption italique Fraunces "En captation — la caméra à l'épaule, le regard partout."
+- Créé le composant FeaturedVideo : eyebrow "À la une" avec point champagne pulsant, iframe YouTube AGL en grand format avec autoplay=1&mute=1&loop=1&playlist=ID&playsinline=1&rel=0&modestbranding=1 (conforme aux règles navigateurs : mute obligatoire avec autoplay). Cadre avec ombre champagne. Titre + description en dessous.
+- Créé le composant VideoCard : iframe YouTube (rel=0&modestbranding=1, SANS autoplay) + titre + année + description. loading="lazy" pour préserver les performances.
+- Créé la section Travaux : FeaturedVideo + grille 2 colonnes (desktop) / 1 colonne (mobile < 900px) des 3 VideoCard.
+- Ajouté le lien "Travaux" dans la navbar (5 liens : Accueil, À propos, Travaux, Formation, Contact).
+- Inséré <CameraBanner /> + <Travaux /> dans le main entre About et Formation.
+- CSS : .camera-banner + parallaxe, .embed-wrap (16:9 responsive), .embed-wrap-lg (featured avec ombre champagne), .videos-grid (2 cols desktop / 1 col mobile), .video-eyebrow avec dot, .video-card-meta, .video-year, .video-desc.
+- Vérifié via Agent Browser : DOM confirme — 5 sections (hero, about, travaux, formation, contact), 4 iframes YouTube avec bons IDs et autoplay uniquement sur AGL, camera banner présent avec project-live.jpg, navbar avec Travaux. Desktop : grille 2 colonnes (540px×2), 3 video cards, featured présent. Mobile 390px : pas d'overflow (hero, banner, travaux), grille 1 colonne. Lint 0 erreur.
+
+Stage Summary:
+- Image caméra (project-live.jpg) intégrée en bannière cinématique plein écran avec parallaxe entre About et Travaux.
+- Section Travaux créée : Spot AGL en vedette (YouTube embed, autoplay+mute, large, ombre champagne) + grille de 3 autres vidéos YouTube (Documentaire École de Santé, Régie Live, Création audiovisuelle) sans autoplay, au clic.
+- URLs YouTube conformes aux règles navigateurs (mute=1 obligatoire avec autoplay=1, playsinline=1 pour mobile, loop via playlist=ID, rel=0 et modestbranding=1 pour player propre).
+- Navbar mise à jour. Mobile responsive (grille 1→2 colonnes). Lint propre.
