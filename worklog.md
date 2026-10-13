@@ -192,3 +192,28 @@ Stage Summary:
 - Section Travaux créée : Spot AGL en vedette (YouTube embed, autoplay+mute, large, ombre champagne) + grille de 3 autres vidéos YouTube (Documentaire École de Santé, Régie Live, Création audiovisuelle) sans autoplay, au clic.
 - URLs YouTube conformes aux règles navigateurs (mute=1 obligatoire avec autoplay=1, playsinline=1 pour mobile, loop via playlist=ID, rel=0 et modestbranding=1 pour player propre).
 - Navbar mise à jour. Mobile responsive (grille 1→2 colonnes). Lint propre.
+
+---
+Task ID: 10
+Agent: Z.ai Code (main)
+Task: Corriger le problème "Sign in to confirm you're not a bot" de YouTube sur les embeds — passer au pattern clic-pour-jouer avec posters locaux.
+
+Work Log:
+- Diagnostiqué : les 4 vidéos YouTube sont bien publiques et embeddable (oEmbed OK), mais YouTube affichait "Sign in to confirm you're not a bot" parce que 4 iframes se chargeaient en même temps + autoplay déclenchait la détection anti-bot.
+- Vérifié les thumbnails YouTube : maxresdefault/hqdefault disponibles pour AGL et t_Hq5no7Q3k, mais 404 pour -Hip-G_fyDc et KQeqlzQcWfQ (thumbnails non générées côté YouTube).
+- Généré un poster sobre pour la 4e vidéo (project-pncd.png) via image-generation CLI (fond abstrait sombre, cohérent avec la DA).
+- Refactorisé en pattern clic-pour-jouer : chaque vidéo affiche un poster local (cohérent avec la DA sombre) + bouton play champagne en overlay. Au clic, l'iframe youtube-nocookie.com se charge avec autoplay=1. Avantage : 0 iframe au load → plus de bot check, chargement instantané, contrôle total sur l'esthétique.
+- Mis à jour les données VIDEOS : ajouté le champ poster pour chaque vidéo (project-agl.png, project-school.jpg, project-live.jpg, project-pncd.png).
+- Créé composant VideoPlayButton (cercle champagne avec icône Play, sizes lg/sm) et YouTubeEmbed (utilise youtube-nocookie.com = mode privacy-enhanced, moins de bot check que youtube.com).
+- Refactorisé FeaturedVideo et VideoCard : state `playing` (false au load), bouton poster → au clic setPlaying(true) → YouTubeEmbed chargé.
+- CSS : .poster-btn (absolute inset-0), .poster-img (object-fit cover + filtre sombre + scale au hover), .play-overlay + .play-circle (cercle champagne 84px ou 60px, scale 1.08 au hover avec halo diffus qui s'estompe).
+- Mis à jour les titres des vidéos avec les vrais titres YouTube (récupérés via oEmbed) : AGL = "Spot Institutionnel — AGL", Doc = "Documentaire — École de Santé de Libreville", t_Hq5no7Q3k = "Édit — But de Bouanga", PNCD = "Vidéo PNCD".
+- Vérifié via Agent Browser : 0 iframe au load (vs 4 avant), 4 poster buttons avec bonnes images locales. Après clic sur le 1er poster : 1 iframe youtube-nocookie.com chargée avec autoplay=1, hasBotCheck=FALSE (plus de message bot). Mobile 390px : pas d'overflow, grille 1 colonne. Lint 0 erreur.
+
+Stage Summary:
+- Problème "Sign in to confirm you're not a bot" RÉSOLU via pattern clic-pour-jouer.
+- 0 iframe YouTube au chargement → le bot check de YouTube ne peut plus se déclencher (il ne s'active que sur les iframes qui se chargent automatiquement).
+- Au clic sur un poster, l'iframe youtube-nocookie.com se charge avec autoplay=1 → la vidéo se lance immédiatement, sans bot check, sans "Sign in".
+- Posters locaux pour les 4 vidéos (cohérents avec la DA sombre éditoriale) + bouton play champagne premium.
+- Avantages collatéraux : chargement de page beaucoup plus rapide (0 iframe YouTube au load), contrôle total sur l'esthétique des posters, pas de cookies YouTube au load (RGPD-friendly).
+- Mobile responsive. Lint propre.

@@ -10,6 +10,7 @@ import {
   MapPin,
   Menu,
   Phone,
+  Play,
   X,
 } from "lucide-react";
 
@@ -41,15 +42,18 @@ const TIMELINE = [
 ];
 
 /*
- * TRAVAUX — embeds YouTube.
- * Le spot AGL est mis en vedette (autoplay + mute, conformément aux règles
- * des navigateurs modernes). Les autres vidéos se lancent au clic.
+ * TRAVAUX — embeds YouTube via pattern clic-pour-jouer.
+ * On affiche un poster local (cohérent avec la DA) + bouton play, et on ne
+ * charge l'iframe youtube-nocookie.com qu'au clic. Cela évite le bot check
+ * "Sign in to confirm you're not a bot" de YouTube, accélère le chargement
+ * et garde le contrôle total sur l'esthétique.
  */
 const FEATURED_VIDEO = {
   id: "UQqeJcMtSI0",
   title: "Spot Institutionnel — AGL",
   year: "2026",
   desc: "Motion design 2D isométrique, 30 secondes — master TV + version web.",
+  poster: "/portfolio/project-agl.png",
 };
 
 const VIDEOS = [
@@ -58,18 +62,21 @@ const VIDEOS = [
     title: "Documentaire — École de Santé de Libreville",
     year: "2025-2026",
     desc: "Réalisation & montage — film documentaire institutionnel.",
+    poster: "/portfolio/project-school.jpg",
   },
   {
     id: "t_Hq5no7Q3k",
-    title: "Régie Live & Streaming",
+    title: "Édit — But de Bouanga",
     year: "2025",
-    desc: "Captation & diffusion live — conférences et matchs universitaires.",
+    desc: "Montage & motion design sportif.",
+    poster: "/portfolio/project-live.jpg",
   },
   {
     id: "KQeqlzQcWfQ",
-    title: "Création audiovisuelle",
+    title: "Vidéo PNCD",
     year: "2025",
-    desc: "Montage & motion design.",
+    desc: "Création audiovisuelle — montage & motion design.",
+    poster: "/portfolio/project-pncd.png",
   },
 ];
 
@@ -353,21 +360,65 @@ function CameraBanner() {
    TRAVAUX — embeds YouTube (AGL en vedette + 3 vidéos)
    ============================================================ */
 
+function VideoPlayButton({ size = "lg" }: { size?: "lg" | "sm" }) {
+  return (
+    <span className={`play-overlay play-overlay-${size}`} aria-hidden>
+      <span className="play-circle">
+        <Play size={size === "lg" ? 30 : 22} fill="currentColor" strokeWidth={0} />
+      </span>
+    </span>
+  );
+}
+
+function YouTubeEmbed({
+  id,
+  title,
+  large = false,
+}: {
+  id: string;
+  title: string;
+  large?: boolean;
+}) {
+  // youtube-nocookie.com = mode privacy-enhanced de YouTube (moins de bot check)
+  const src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&autoplay=1&playsinline=1`;
+  return (
+    <iframe
+      src={src}
+      title={title}
+      loading="lazy"
+      className={large ? "embed-iframe embed-iframe-lg" : "embed-iframe"}
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowFullScreen
+    />
+  );
+}
+
 function FeaturedVideo() {
-  const src = `https://www.youtube.com/embed/${FEATURED_VIDEO.id}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=${FEATURED_VIDEO.id}&playsinline=1&controls=1`;
+  const [playing, setPlaying] = useState(false);
   return (
     <article className="reveal featured-video">
       <div className="video-eyebrow">
         <span className="video-eyebrow-dot" /> À la une
       </div>
       <div className="embed-wrap embed-wrap-lg">
-        <iframe
-          src={src}
-          title={FEATURED_VIDEO.title}
-          loading="eager"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
+        {playing ? (
+          <YouTubeEmbed id={FEATURED_VIDEO.id} title={FEATURED_VIDEO.title} large />
+        ) : (
+          <button
+            type="button"
+            className="poster-btn"
+            onClick={() => setPlaying(true)}
+            aria-label={`Lire la vidéo : ${FEATURED_VIDEO.title}`}
+          >
+            <img
+              src={FEATURED_VIDEO.poster}
+              alt={FEATURED_VIDEO.title}
+              className="poster-img"
+              loading="eager"
+            />
+            <VideoPlayButton size="lg" />
+          </button>
+        )}
       </div>
       <div className="featured-meta">
         <h3 className="display text-2xl sm:text-3xl md:text-4xl">
@@ -387,20 +438,31 @@ function VideoCard({
   video: (typeof VIDEOS)[number];
   index: number;
 }) {
-  const src = `https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1`;
+  const [playing, setPlaying] = useState(false);
   return (
     <article
       className="reveal video-card"
       style={{ transitionDelay: `${index * 90}ms` }}
     >
       <div className="embed-wrap">
-        <iframe
-          src={src}
-          title={video.title}
-          loading="lazy"
-          allow="encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
+        {playing ? (
+          <YouTubeEmbed id={video.id} title={video.title} />
+        ) : (
+          <button
+            type="button"
+            className="poster-btn"
+            onClick={() => setPlaying(true)}
+            aria-label={`Lire la vidéo : ${video.title}`}
+          >
+            <img
+              src={video.poster}
+              alt={video.title}
+              className="poster-img"
+              loading="lazy"
+            />
+            <VideoPlayButton size="sm" />
+          </button>
+        )}
       </div>
       <div className="video-card-meta">
         <h3 className="display text-lg sm:text-xl">{video.title}</h3>
