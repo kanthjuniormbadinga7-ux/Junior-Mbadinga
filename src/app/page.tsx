@@ -14,6 +14,7 @@ import {
   Menu,
   Music4,
   Phone,
+  Play,
   Sparkles,
   X,
   Zap,
@@ -28,6 +29,7 @@ const NAV_LINKS = [
   { label: "Accueil", href: "#hero" },
   { label: "À propos", href: "#about" },
   { label: "Compétences", href: "#skills" },
+  { label: "Vidéos", href: "#videos" },
   { label: "Formation", href: "#formation" },
   { label: "Contact", href: "#contact" },
 ];
@@ -84,6 +86,43 @@ const COUNTERS = [
   { target: 3, suffix: "", label: "Projets réalisés" },
   { target: 2, suffix: "", label: "Ans d'expérience" },
   { target: 100, suffix: "%", label: "Passion" },
+];
+
+/*
+ * VIDEOS — hébergées sur Livid (https://livid.com).
+ * Pour brancher vos vraies vidéos : récupérez l'URL d'embed sur Livid
+ * (bouton Share → Embed → copiez le `src` de l'iframe) et collez-la dans
+ * le champ `embedUrl` ci-dessous. Le poster s'affiche jusqu'au clic, puis
+ * l'iframe Livid se charge (lecture adaptative, sans alourdir le site).
+ */
+const VIDEOS = [
+  {
+    title: "Spot Institutionnel AGL",
+    year: "2026",
+    client: "Africa Global Logistics",
+    duration: "0:30",
+    desc: "Spot institutionnel mettant en valeur le réseau panafricain d'AGL en motion design 2D isométrique.",
+    poster: "/portfolio/project-agl.png",
+    embedUrl: "https://livid.com/embed/REMPLACER-1", // ← votre lien Livid ici
+  },
+  {
+    title: "École de Santé de Libreville",
+    year: "2025-2026",
+    client: "Documentaire institutionnel",
+    duration: "Extrait",
+    desc: "Film documentaire présentant les formations et infrastructures de l'École de Santé de Libreville.",
+    poster: "/portfolio/project-school.jpg",
+    embedUrl: "https://livid.com/embed/REMPLACER-2", // ← votre lien Livid ici
+  },
+  {
+    title: "Régie Live & Streaming",
+    year: "2025",
+    client: "Événementiel universitaire",
+    duration: "Live",
+    desc: "Organisation, captation et diffusion live de conférences et matchs universitaires.",
+    poster: "/portfolio/project-live.jpg",
+    embedUrl: "https://livid.com/embed/REMPLACER-3", // ← votre lien Livid ici
+  },
 ];
 
 /* ============================================================
@@ -424,6 +463,98 @@ function Skills() {
 }
 
 /* ============================================================
+   VIDEOS (Livid embeds)
+   ============================================================ */
+
+function VideoCard({
+  video,
+  index,
+}: {
+  video: (typeof VIDEOS)[number];
+  index: number;
+}) {
+  const [playing, setPlaying] = useState(false);
+  const isPlaceholder = video.embedUrl.includes("REMPLACER");
+
+  return (
+    <article className="reveal" style={{ transitionDelay: `${index * 90}ms` }}>
+      <div className="video-card">
+        {playing && !isPlaceholder ? (
+          <div className="video-iframe-wrap">
+            <iframe
+              src={`${video.embedUrl}?autoplay=1`}
+              title={video.title}
+              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-presentation"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="video-poster"
+            onClick={() => setPlaying(true)}
+            aria-label={`Lire la vidéo : ${video.title}`}
+          >
+            <img src={video.poster} alt={video.title} loading="lazy" />
+            <span className="play-btn" aria-hidden>
+              <Play size={28} fill="currentColor" strokeWidth={0} />
+            </span>
+            <span className="video-duration">{video.duration}</span>
+          </button>
+        )}
+      </div>
+
+      <div className="mt-5 flex items-baseline justify-between gap-4">
+        <div className="flex items-baseline gap-3">
+          <span className="skill-idx">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <h3 className="display text-xl sm:text-2xl">{video.title}</h3>
+        </div>
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-3">
+          {video.year}
+        </span>
+      </div>
+      <p className="mt-2 text-sm font-medium text-ink-2">{video.client}</p>
+      <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-3">
+        {video.desc}
+      </p>
+    </article>
+  );
+}
+
+function Videos() {
+  return (
+    <section id="videos" className="section">
+      <div className="wrap">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <div className="reveal eyebrow">
+              <span className="idx">04</span>Vidéos
+            </div>
+            <h2 className="display reveal reveal-d1 mt-6 text-3xl sm:text-4xl md:text-5xl">
+              Mes <em className="italic text-accent">créations</em>.
+            </h2>
+          </div>
+          <p className="reveal reveal-d2 lede lg:col-span-4 lg:text-right">
+            Motion design, documentaire et captation live — un aperçu de mon
+            travail en audiovisuel.
+          </p>
+        </div>
+
+        <div className="mt-16 grid gap-12 lg:gap-16">
+          {VIDEOS.map((v, i) => (
+            <VideoCard key={v.title} video={v} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
    FORMATION
    ============================================================ */
 
@@ -434,7 +565,7 @@ function Formation() {
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <div className="reveal eyebrow">
-              <span className="idx">04</span>Formation
+              <span className="idx">05</span>Formation
             </div>
             <h2 className="display reveal reveal-d1 mt-6 text-3xl sm:text-4xl md:text-5xl">
               Mon <em className="italic text-accent">parcours</em>.
@@ -520,7 +651,7 @@ function Contact() {
           {/* Left */}
           <div className="lg:col-span-5">
             <div className="reveal eyebrow">
-              <span className="idx">05</span>Contact
+              <span className="idx">06</span>Contact
             </div>
             <h2 className="display reveal reveal-d1 mt-6 text-4xl sm:text-5xl md:text-6xl">
               Travaillons
@@ -691,6 +822,8 @@ export default function Home() {
         <About />
         <div className="rule" />
         <Skills />
+        <div className="rule" />
+        <Videos />
         <div className="rule" />
         <Formation />
         <Contact />

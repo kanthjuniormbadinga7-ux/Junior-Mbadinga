@@ -42,3 +42,23 @@ Stage Summary:
 - Sections : Hero, About, Skills, Formation, Contact, Footer.
 - Grain + vignette subtils pour l'atmosphère. Reveal au scroll conservé (plus subtil).
 - Vérifié desktop + mobile + formulaire. Aucun overflow, aucune erreur console, lint propre.
+
+---
+Task ID: 3
+Agent: Z.ai Code (main)
+Task: Intégrer une section Vidéos dans le portfolio, prête à recevoir des embeds Livid (hébergement vidéo externe pour gérer les vidéos lourdes).
+
+Work Log:
+- Recherché et lu le site livid.com : plateforme d'hébergement vidéo alternative à Vimeo, embed via <iframe src="https://livid.com/embed/ID">.
+- Ajouté styles vidéo dans globals.css : .video-card, .video-poster (poster 16:9 avec filtre sombre + zoom au hover), .play-btn (cercle champagne centré avec animation), .video-duration (badge en coin), .video-iframe-wrap (conteneur iframe 16:9 responsive).
+- Ajouté la section Vidéos (numérotée 04) dans page.tsx entre Skills et Formation. Renuméroté Formation (04→05) et Contact (05→06). Ajouté lien "Vidéos" dans la navbar.
+- Créé un tableau VIDEOS (3 entrées : Spot AGL, École de Santé, Régie Live) avec champs : title, year, client, duration, poster (images existantes), embedUrl (placeholders "https://livid.com/embed/REMPLACER-1/2/3" — à remplacer par les vrais liens Livid).
+- Créé composant VideoCard avec pattern click-to-load : poster + bouton play → au clic, charge l'iframe Livid avec ?autoplay=1, sandbox sécurisée, allow fullscreen/picture-in-picture. Si embedUrl contient "REMPLACER" (placeholder), reste sur le poster (pas d'iframe cassée).
+- Vérifié via Agent Browser : section #videos présente, 3 cartes avec 3 play buttons, 3 posters, 3 titres confirmés (Spot Institutionnel AGL, École de Santé de Libreville, Régie Live & Streaming). Full-page screenshot confirme les 3 titres visibles. Mobile (390px) : pas d'overflow (scrollWidth=390=innerWidth). Lint 0 erreur.
+
+Stage Summary:
+- Section Vidéos opérationnelle et stylée dans le même esprit éditorial sombre (Fraunces/Manrope, champagne, hairlines).
+- 3 cartes vidéo avec posters (images existantes), boutons play champagne, badges durée, titres/clients/descriptions.
+- Intégration Livid prête : il suffit de remplacer les 3 embedUrl placeholder par les vrais liens Livid (src de l'iframe donné par le bouton Share→Embed de chaque vidéo).
+- Pattern click-to-load : la vidéo ne se charge qu'au clic (site reste léger, pas d'iframe au chargement initial).
+- Mobile responsive, aucune erreur, lint propre.
