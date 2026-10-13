@@ -1,79 +1,16 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- Dégradé de fond -->
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#020617" />
-    </linearGradient>
+  <!-- Fond blanc pur -->
+  <rect width="512" height="512" rx="110" fill="#FFFFFF"/>
 
-    <!-- Dégradé du texte JM -->
-    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="50%" stop-color="#818cf8" />
-      <stop offset="100%" stop-color="#c084fc" />
-    </linearGradient>
+  <!-- Monogramme JM - Style Typographique Studio Luxe (Noir Profond) -->
+  <g fill="#09090B">
+    <!-- Lettre J -->
+    <path d="M190 150 H220 V295 C220 330 195 355 155 355 C128 355 106 342 94 322 L118 302 C125 315 137 325 154 325 C178 325 190 310 190 288 V150 Z"/>
 
-    <!-- Filtre de flou pour la lumière (Glow) -->
-    <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="25" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <!-- Lettre M -->
+    <path d="M245 150 H275 L317 245 L359 150 H389 V355 H359 V210 L325 290 H309 L275 210 V355 H245 V150 Z"/>
+  </g>
 
-    <!-- Animation CSS intégrée pour l'effet de lumière respirante -->
-    <style>
-      @keyframes pulseGlow {
-        0%, 100% {
-          opacity: 0.25;
-          transform: scale(0.9);
-        }
-        50% {
-          opacity: 0.75;
-          transform: scale(1.15);
-        }
-      }
-      @keyframes textGlow {
-        0%, 100% {
-          filter: drop-shadow(0px 0px 6px rgba(56, 189, 248, 0.4));
-        }
-        50% {
-          filter: drop-shadow(0px 0px 20px rgba(192, 132, 252, 0.9));
-        }
-      }
-      .glow-circle {
-        transform-origin: center;
-        animation: pulseGlow 3.5s ease-in-out infinite;
-      }
-      .logo-text {
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        font-weight: 900;
-        animation: textGlow 3.5s ease-in-out infinite;
-      }
-    </style>
-  </defs>
-
-  <!-- Fond sombre arrondi -->
-  <rect width="512" height="512" rx="128" fill="url(#bg)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="4"/>
-
-  <!-- Halo de lumière néon animé -->
-  <circle class="glow-circle" cx="256" cy="256" r="120" fill="#818cf8" filter="url(#glowFilter)" />
-
-  <!-- Cercle pointillé décoratif -->
-  <circle cx="256" cy="256" r="190" stroke="url(#textGrad)" stroke-width="3" stroke-opacity="0.3" stroke-dasharray="8 8" />
-
-  <!-- Initiales JM animées -->
-  <text
-    class="logo-text"
-    x="50%"
-    y="55%"
-    text-anchor="middle"
-    dominant-baseline="middle"
-    font-size="190"
-    fill="url(#textGrad)"
-    letter-spacing="-8"
-  >
-    JM
-  </text>
+  <!-- Point carré signature Studio (bas droite) -->
+  <rect x="402" y="337" width="18" height="18" fill="#09090B"/>
 </svg>
