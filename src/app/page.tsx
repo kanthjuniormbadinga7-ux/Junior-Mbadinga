@@ -5,19 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import {
   ArrowRight,
   ArrowUpRight,
-  Camera,
-  Clapperboard,
-  Github,
   Linkedin,
   Mail,
   MapPin,
   Menu,
-  Music4,
   Phone,
-  Sparkles,
   X,
-  Zap,
-  Eye,
 } from "lucide-react";
 
 /* ============================================================
@@ -27,43 +20,9 @@ import {
 const NAV_LINKS = [
   { label: "Accueil", href: "#hero" },
   { label: "À propos", href: "#about" },
-  { label: "Compétences", href: "#skills" },
   { label: "Vidéos", href: "#videos" },
   { label: "Formation", href: "#formation" },
   { label: "Contact", href: "#contact" },
-];
-
-const SKILLS = [
-  {
-    icon: Clapperboard,
-    title: "After Effects, Premiere Pro & Photoshop",
-    desc: "Suite Adobe maîtrisée pour le montage, l'étalonnage et la post-production.",
-  },
-  {
-    icon: Camera,
-    title: "Cadrage, Prise de son & Photographie",
-    desc: "Captation propre, cadrage maîtrisé et son net pour des images qui parlent.",
-  },
-  {
-    icon: Sparkles,
-    title: "Motion Design 2D & Animation isométrique",
-    desc: "Animations fluides en 2D, scènes isométriques et habillages dynamiques.",
-  },
-  {
-    icon: Music4,
-    title: "Sound Design — Mixage, effets & voix off",
-    desc: "Mixage, sound design et voix off pour donner vie et rythme à vos projets.",
-  },
-  {
-    icon: Eye,
-    title: "Sens du détail et rigueur",
-    desc: "Une obsession pour le détail, du premier plan à la livraison finale.",
-  },
-  {
-    icon: Zap,
-    title: "Adaptation aux nouveaux outils et formats",
-    desc: "Curieux et réactif, j'embrasse les nouvelles technologies et formats.",
-  },
 ];
 
 const TIMELINE = [
@@ -81,12 +40,6 @@ const TIMELINE = [
   },
 ];
 
-const COUNTERS = [
-  { target: 3, suffix: "", label: "Projets réalisés" },
-  { target: 2, suffix: "", label: "Ans d'expérience" },
-  { target: 100, suffix: "%", label: "Passion" },
-];
-
 /*
  * VIDEOS — fichiers locaux compressés dans /public/videos/.
  * Déposez vos .mp4 (H.264, 720p/1080p, idéalement < 30-50 Mo)
@@ -95,29 +48,14 @@ const COUNTERS = [
  */
 const VIDEOS = [
   {
-    title: "Spot Institutionnel AGL",
-    year: "2026",
-    client: "Africa Global Logistics",
-    duration: "0:30",
-    desc: "Spot institutionnel mettant en valeur le réseau panafricain d'AGL en motion design 2D isométrique.",
     poster: "/portfolio/project-agl.png",
     src: "/videos/spot-agl.mp4",
   },
   {
-    title: "École de Santé de Libreville",
-    year: "2025-2026",
-    client: "Documentaire institutionnel",
-    duration: "Extrait",
-    desc: "Film documentaire présentant les formations et infrastructures de l'École de Santé de Libreville.",
     poster: "/portfolio/project-school.jpg",
     src: "/videos/ecole-sante.mp4",
   },
   {
-    title: "Régie Live & Streaming",
-    year: "2025",
-    client: "Événementiel universitaire",
-    duration: "Live",
-    desc: "Organisation, captation et diffusion live de conférences et matchs universitaires.",
     poster: "/portfolio/project-live.jpg",
     src: "/videos/regie-live.mp4",
   },
@@ -151,52 +89,6 @@ function useScrollReveal() {
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
-}
-
-function Counter({
-  target,
-  suffix,
-  duration = 1600,
-}: {
-  target: number;
-  suffix: string;
-  duration?: number;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [value, setValue] = useState(0);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !started.current) {
-            started.current = true;
-            const start = performance.now();
-            const tick = (now: number) => {
-              const p = Math.min((now - start) / duration, 1);
-              const eased = 1 - Math.pow(1 - p, 3);
-              setValue(Math.round(eased * target));
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, [target, duration]);
-
-  return (
-    <span ref={ref} className="counter-num">
-      {value}
-      <span className="unit">{suffix}</span>
-    </span>
-  );
 }
 
 /* ============================================================
@@ -381,54 +273,6 @@ function About() {
               donner vie à des idées à travers le motion design, la réalisation
               et le sound design.
             </p>
-
-            <div className="reveal reveal-d3 mt-14 grid grid-cols-3 gap-6 border-t border-[var(--line)] pt-10">
-              {COUNTERS.map((c) => (
-                <div key={c.label} className="flex flex-col gap-3">
-                  <Counter target={c.target} suffix={c.suffix} />
-                  <span className="text-xs font-medium uppercase tracking-[0.18em] text-ink-3">
-                    {c.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   SKILLS
-   ============================================================ */
-
-function Skills() {
-  return (
-    <section id="skills" className="section">
-      <div className="wrap">
-        <p className="reveal lede max-w-2xl">
-          Un cocktail de compétences techniques et créatives — montage, motion
-          design 2D, sound design, captation et rigueur — au service de vos
-          idées.
-        </p>
-
-        <div className="reveal reveal-d2 mt-14 border-t border-[var(--line)]">
-          <div className="grid md:grid-cols-2 md:gap-x-14">
-            {SKILLS.map((s) => {
-              const Icon = s.icon;
-              return (
-                <div key={s.title} className="skill-row">
-                  <div className="skill-icon">
-                    <Icon size={20} strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <h3 className="skill-title">{s.title}</h3>
-                    <p className="skill-desc mt-1">{s.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -461,17 +305,6 @@ function VideoCard({
           Votre navigateur ne prend pas en charge la lecture vidéo.
         </video>
       </div>
-
-      <div className="mt-5 flex items-baseline justify-between gap-4">
-        <h3 className="display text-xl sm:text-2xl">{video.title}</h3>
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-3">
-          {video.year}
-        </span>
-      </div>
-      <p className="mt-2 text-sm font-medium text-ink-2">{video.client}</p>
-      <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-3">
-        {video.desc}
-      </p>
     </article>
   );
 }
@@ -480,14 +313,9 @@ function Videos() {
   return (
     <section id="videos" className="section">
       <div className="wrap">
-        <p className="reveal lede max-w-2xl">
-          Motion design, documentaire et captation live — un aperçu de mon
-          travail en audiovisuel.
-        </p>
-
-        <div className="mt-16 grid gap-12 lg:gap-16">
+        <div className="grid gap-10 lg:gap-14">
           {VIDEOS.map((v, i) => (
-            <VideoCard key={v.title} video={v} index={i} />
+            <VideoCard key={v.src} video={v} index={i} />
           ))}
         </div>
       </div>
@@ -743,8 +571,6 @@ export default function Home() {
         <Hero />
         <div className="rule" />
         <About />
-        <div className="rule" />
-        <Skills />
         <div className="rule" />
         <Videos />
         <div className="rule" />

@@ -105,3 +105,26 @@ Stage Summary:
 - Cadre photo éditorial raffiné (offset mount) sur le portrait hero et la photo about, avec interaction au hover.
 - Footer allégé : LinkedIn + Email seulement. Sous-titre aligné au nouveau titre.
 - Vidéos locales <video> conservées. Mobile responsive. Lint propre.
+
+---
+Task ID: 6
+Agent: Z.ai Code (main)
+Task: Transformer le site en portfolio pur (pas un CV) — retirer les compteurs de stats, toute la section Compétences, et les textes descriptifs sous les vidéos.
+
+Work Log:
+- Supprimé le tableau COUNTERS et le composant Counter (3 Projets / 2 Ans / 100% Passion).
+- Supprimé le bloc compteurs dans la section About (ne reste que le titre + le paragraphe lede).
+- Supprimé le tableau SKILLS et toute la section Skills (les 6 compétences Adobe/cadrage/motion/sound design/détail/adaptation).
+- Supprimé le lien "Compétences" de la navbar (nav = Accueil, À propos, Vidéos, Formation, Contact).
+- Supprimé <Skills /> et son divider du main.
+- Nettoyé le tableau VIDEOS : ne reste que poster + src (supprimé title/year/client/duration/desc).
+- Refondu VideoCard : juste la balise <video> dans .video-card, plus aucun texte (ni titre, ni année, ni client, ni description).
+- Refondu Videos : supprimé la synthèse "Motion design, documentaire et captation live...", ne reste que la grille des 3 vidéos.
+- Nettoyé les imports lucide-react inutilisés (Camera, Clapperboard, Github, Music4, Sparkles, Zap, Eye).
+- Vérifié via Agent Browser : DOM confirme — sections = [hero, about, videos, formation, contact] (plus de skills), hasCounters=false, videosHasText=false (plus de "Africa Global" ni "Spot Institutionnel"), aboutText ne contient que le titre + lede (pas de "Projets réalisés" ni "Ans d'expérience"). Nav = 5 liens sans Compétences. Mobile 390px : pas d'overflow (hero ET videos). Lint 0 erreur.
+
+Stage Summary:
+- Portfolio pur, plus CV-like : plus de stats, plus de liste de compétences, plus de descriptions de projets.
+- Sections restantes : Hero (Monteur, Motion Designer + portrait), À propos (photo + titre + lede, sans compteurs), Vidéos (3 lecteurs <video> nus, sans texte), Formation (timeline), Contact (formulaire), Footer.
+- Le travail parle de lui-même : les vidéos sont affichées sans légende, juste avec les contrôles natifs.
+- Vidéos locales <video> conservées (placeholders en place, à remplacer par les vrais .mp4 dans public/videos/). Mobile responsive. Lint propre.
