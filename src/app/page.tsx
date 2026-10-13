@@ -14,7 +14,6 @@ import {
   Menu,
   Music4,
   Phone,
-  Play,
   Sparkles,
   X,
   Zap,
@@ -89,11 +88,10 @@ const COUNTERS = [
 ];
 
 /*
- * VIDEOS — hébergées sur Livid (https://livid.com).
- * Pour brancher vos vraies vidéos : récupérez l'URL d'embed sur Livid
- * (bouton Share → Embed → copiez le `src` de l'iframe) et collez-la dans
- * le champ `embedUrl` ci-dessous. Le poster s'affiche jusqu'au clic, puis
- * l'iframe Livid se charge (lecture adaptative, sans alourdir le site).
+ * VIDEOS — fichiers locaux compressés dans /public/videos/.
+ * Déposez vos .mp4 (H.264, 720p/1080p, idéalement < 30-50 Mo)
+ * dans le dossier public/videos/ avec les noms ci-dessous.
+ * Le lecteur HTML5 natif s'en occupe, sans dépendance externe.
  */
 const VIDEOS = [
   {
@@ -103,7 +101,7 @@ const VIDEOS = [
     duration: "0:30",
     desc: "Spot institutionnel mettant en valeur le réseau panafricain d'AGL en motion design 2D isométrique.",
     poster: "/portfolio/project-agl.png",
-    embedUrl: "https://livid.com/embed/REMPLACER-1", // ← votre lien Livid ici
+    src: "/videos/spot-agl.mp4",
   },
   {
     title: "École de Santé de Libreville",
@@ -112,7 +110,7 @@ const VIDEOS = [
     duration: "Extrait",
     desc: "Film documentaire présentant les formations et infrastructures de l'École de Santé de Libreville.",
     poster: "/portfolio/project-school.jpg",
-    embedUrl: "https://livid.com/embed/REMPLACER-2", // ← votre lien Livid ici
+    src: "/videos/ecole-sante.mp4",
   },
   {
     title: "Régie Live & Streaming",
@@ -121,7 +119,7 @@ const VIDEOS = [
     duration: "Live",
     desc: "Organisation, captation et diffusion live de conférences et matchs universitaires.",
     poster: "/portfolio/project-live.jpg",
-    embedUrl: "https://livid.com/embed/REMPLACER-3", // ← votre lien Livid ici
+    src: "/videos/regie-live.mp4",
   },
 ];
 
@@ -463,7 +461,7 @@ function Skills() {
 }
 
 /* ============================================================
-   VIDEOS (Livid embeds)
+   VIDEOS (lecteur HTML5 natif, fichiers locaux)
    ============================================================ */
 
 function VideoCard({
@@ -473,37 +471,19 @@ function VideoCard({
   video: (typeof VIDEOS)[number];
   index: number;
 }) {
-  const [playing, setPlaying] = useState(false);
-  const isPlaceholder = video.embedUrl.includes("REMPLACER");
-
   return (
     <article className="reveal" style={{ transitionDelay: `${index * 90}ms` }}>
       <div className="video-card">
-        {playing && !isPlaceholder ? (
-          <div className="video-iframe-wrap">
-            <iframe
-              src={`${video.embedUrl}?autoplay=1`}
-              title={video.title}
-              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-presentation"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        ) : (
-          <button
-            type="button"
-            className="video-poster"
-            onClick={() => setPlaying(true)}
-            aria-label={`Lire la vidéo : ${video.title}`}
-          >
-            <img src={video.poster} alt={video.title} loading="lazy" />
-            <span className="play-btn" aria-hidden>
-              <Play size={28} fill="currentColor" strokeWidth={0} />
-            </span>
-            <span className="video-duration">{video.duration}</span>
-          </button>
-        )}
+        <video
+          className="video-native"
+          src={video.src}
+          poster={video.poster}
+          controls
+          preload="metadata"
+          playsInline
+        >
+          Votre navigateur ne prend pas en charge la lecture vidéo.
+        </video>
       </div>
 
       <div className="mt-5 flex items-baseline justify-between gap-4">

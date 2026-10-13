@@ -62,3 +62,23 @@ Stage Summary:
 - Intégration Livid prête : il suffit de remplacer les 3 embedUrl placeholder par les vrais liens Livid (src de l'iframe donné par le bouton Share→Embed de chaque vidéo).
 - Pattern click-to-load : la vidéo ne se charge qu'au clic (site reste léger, pas d'iframe au chargement initial).
 - Mobile responsive, aucune erreur, lint propre.
+
+---
+Task ID: 4
+Agent: Z.ai Code (main)
+Task: Abandonner Livid, passer en vidéos locales compressées (balise <video> HTML5 native), garder le portfolio dans son style éditorial sombre.
+
+Work Log:
+- Supprimé toute l'intégration Livid (iframe, sandbox, click-to-load, placeholders embedUrl).
+- Remplacé le composant VideoCard : iframe Livid → balise <video> HTML5 native avec controls, poster, preload="metadata", playsInline. Le visiteur clique play, la vidéo se lit directement depuis le serveur du site.
+- Mis à jour les données VIDEOS : champ embedUrl remplacé par src pointant vers /videos/spot-agl.mp4, /videos/ecole-sante.mp4, /videos/regie-live.mp4.
+- Nettoyé globals.css : supprimé .video-poster, .play-btn, .video-duration, .video-iframe-wrap. Ajouté .video-native (16:9, object-fit cover) + styles fins pour les contrôles natifs (::-webkit-media-controls-panel en gradient sombre, boutons tintés champagne).
+- Supprimé l'import inutilisé Play (lucide-react).
+- Créé le dossier public/videos/ avec : 3 vidéos placeholder (générées via ffmpeg à partir des posters existants, 5s chacune, 32-166 Ko, H.264 720p + faststart) + un README.md expliquant comment remplacer les placeholders par les vraies vidéos (noms exacts, réglages d'encodage recommandés, commandes ffmpeg et instructions HandBrake).
+- Vérifié via Agent Browser : 3 balises <video> natives avec bonnes sources et posters, duration:5 chargée, readyState:4, lecture démarre au clic. Section "04 Vidéos / Mes créations." s'affiche. Mobile 390px : pas d'overflow, 3 vidéos présentes. Lint 0 erreur.
+
+Stage Summary:
+- Plus aucune dépendance externe (Livid abandonné). Vidéos 100% locales via balise <video> HTML5.
+- 3 vidéos placeholder en place (visibles dans la preview). Pour brancher les vraies : compresser et remplacer les fichiers dans public/videos/ en gardant les mêmes noms (spot-agl.mp4, ecole-sante.mp4, regie-live.mp4).
+- README.md dans public/videos/ documente les réglages d'encodage (H.264, 720p/1080p, 2-4 Mbps, faststart) + commandes ffmpeg + instructions HandBrake.
+- Style éditorial sombre conservé. Lecteur natif avec contrôles tintés champagne. Responsive desktop + mobile. Lint propre.
