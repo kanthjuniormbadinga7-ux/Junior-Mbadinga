@@ -43,17 +43,14 @@ const TIMELINE = [
 
 /*
  * TRAVAUX — embeds YouTube via pattern clic-pour-jouer.
- * On affiche un poster local (cohérent avec la DA) + bouton play, et on ne
- * charge l'iframe youtube-nocookie.com qu'au clic. Cela évite le bot check
- * "Sign in to confirm you're not a bot" de YouTube, accélère le chargement
- * et garde le contrôle total sur l'esthétique.
+ * Les miniatures utilisent les vraies thumbnails YouTube (i.ytimg.com).
+ * Si la miniature n'est pas encore disponible (vidéo en cours d'upload),
+ * un fond sombre s'affiche avec le bouton play — pas de miniature fictive.
  */
 const FEATURED_VIDEO = {
   id: "UQqeJcMtSI0",
   title: "Spot Institutionnel — AGL",
   year: "2026",
-  desc: "Motion design 2D isométrique, 30 secondes — master TV + version web.",
-  poster: "/portfolio/project-agl.png",
 };
 
 const VIDEOS = [
@@ -61,22 +58,16 @@ const VIDEOS = [
     id: "-Hip-G_fyDc",
     title: "Documentaire — École de Santé de Libreville",
     year: "2025-2026",
-    desc: "Réalisation & montage — film documentaire institutionnel.",
-    poster: "/portfolio/project-school.jpg",
   },
   {
     id: "t_Hq5no7Q3k",
     title: "Édit — But de Bouanga",
     year: "2025",
-    desc: "Montage & motion design sportif.",
-    poster: "/portfolio/project-live.jpg",
   },
   {
     id: "KQeqlzQcWfQ",
     title: "Vidéo PNCD",
     year: "2025",
-    desc: "Création audiovisuelle — montage & motion design.",
-    poster: "/portfolio/project-pncd.png",
   },
 ];
 
@@ -321,11 +312,6 @@ function About() {
             <h2 className="display reveal reveal-d1 text-3xl sm:text-4xl md:text-5xl">
               Donner vie à vos idées, <em className="italic text-accent">image par image</em>.
             </h2>
-
-            <p className="lede reveal reveal-d2 mt-8 max-w-md">
-              Basé à Libreville, je crée des vidéos qui marquent — du motion
-              design au montage, en passant par le son.
-            </p>
           </div>
         </div>
       </div>
@@ -375,6 +361,23 @@ function VideoPlayButton({ size = "lg" }: { size?: "lg" | "sm" }) {
   );
 }
 
+/** Thumbnail YouTube réel avec fallback sombre si indisponible. */
+function YoutubeThumb({ id, title }: { id: string; title: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <div className="poster-fallback" aria-hidden />;
+  }
+  return (
+    <img
+      src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+      alt={title}
+      className="poster-img"
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 function YouTubeEmbed({
   id,
   title,
@@ -415,12 +418,7 @@ function FeaturedVideo() {
             onClick={() => setPlaying(true)}
             aria-label={`Lire la vidéo : ${FEATURED_VIDEO.title}`}
           >
-            <img
-              src={FEATURED_VIDEO.poster}
-              alt={FEATURED_VIDEO.title}
-              className="poster-img"
-              loading="eager"
-            />
+            <YoutubeThumb id={FEATURED_VIDEO.id} title={FEATURED_VIDEO.title} />
             <VideoPlayButton size="lg" />
           </button>
         )}
@@ -430,7 +428,6 @@ function FeaturedVideo() {
           {FEATURED_VIDEO.title}
           <span className="text-accent"> — {FEATURED_VIDEO.year}</span>
         </h3>
-        <p className="lede mt-4 max-w-2xl">{FEATURED_VIDEO.desc}</p>
       </div>
     </article>
   );
@@ -459,12 +456,7 @@ function VideoCard({
             onClick={() => setPlaying(true)}
             aria-label={`Lire la vidéo : ${video.title}`}
           >
-            <img
-              src={video.poster}
-              alt={video.title}
-              className="poster-img"
-              loading="lazy"
-            />
+            <YoutubeThumb id={video.id} title={video.title} />
             <VideoPlayButton size="sm" />
           </button>
         )}
@@ -473,7 +465,6 @@ function VideoCard({
         <h3 className="display text-lg sm:text-xl">{video.title}</h3>
         <span className="video-year">{video.year}</span>
       </div>
-      <p className="video-desc">{video.desc}</p>
     </article>
   );
 }

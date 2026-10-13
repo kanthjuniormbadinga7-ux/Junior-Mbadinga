@@ -238,3 +238,23 @@ Stage Summary:
 - 2 vidéos encore en upload YouTube : pas un problème, le pattern click-to-play affiche le poster et charge l'iframe au clic (la vidéo sera disponible quand YouTube aura terminé le processing).
 - Résolution lecture : YouTube sert automatiquement la meilleure qualité selon la connexion du visiteur (720p/1080p selon bande passante) — pas d'action nécessaire.
 - Mobile responsive. Lint propre.
+
+---
+Task ID: 12
+Agent: Z.ai Code (main)
+Task: Retirer 5 phrases descriptives, remplacer posters hypothétiques par vraies thumbnails YouTube, agrandir photo caméra.
+
+Work Log:
+- Retiré la lede About "Basé à Libreville, je crée des vidéos qui marquent — du motion design au montage, en passant par le son." (ne reste que le titre "Donner vie à vos idées, image par image.").
+- Retiré les 4 descriptions de vidéos (FEATURED_VIDEO.desc + VIDEOS[].desc) : plus de "Motion design 2D isométrique, 30 secondes — master TV + version web.", "Réalisation & montage — film documentaire institutionnel.", "Montage & motion design sportif.", "Création audiovisuelle — montage & motion design.".
+- Supprimé les champs poster des données (plus de posters hypothétiques locaux project-agl.png/project-school.jpg/project-live.jpg/project-pncd.png).
+- Créé composant YoutubeThumb : utilise la vraie thumbnail YouTube https://i.ytimg.com/vi/{id}/hqdefault.jpg avec onError fallback vers .poster-fallback (fond sombre radial gradient) si la miniature n'est pas disponible. Ainsi : plus de miniature fictive, soit la vraie thumbnail YouTube s'affiche, soit un fond sombre honnête.
+- Appliqué YoutubeThumb dans FeaturedVideo et VideoCard (remplace les <img src=poster> locaux).
+- Agrandi la photo caméra : grid passée de 5fr/7fr (photo petite) à 7fr/5fr (photo dominante). max-height passé de 70vh à 86vh. Résultat : photo 616px large × 774px haut (vs 440px × 630px avant), soit ~40% plus grande.
+- Vérifié via Agent Browser : DOM confirme — 4 thumbnails YouTube réelles (i.ytimg.com/vi/.../hqdefault.jpg), 4/4 chargées (thumbVisible=[true,true,true,true]), 0 poster-fallback, descsPresent=false, aboutLedePresent=false. Photo caméra 616×774px (large et entière, tête-pieds-caméra visibles). Mobile 390px : pas d'overflow. Lint 0 erreur.
+
+Stage Summary:
+- 5 phrases descriptives retirées (About lede + 4 descs vidéos). Les sections restent épurées : titres uniquement.
+- Miniatures hypothétiques remplacées par les vraies thumbnails YouTube. Les 4 se chargent correctement (même les 2 vidéos en upload ont leur miniature).
+- Photo caméra agrandie ~40% (layout inversé 7fr/5fr, max-height 86vh). Entière, non coupée.
+- Mobile responsive. Lint propre.
