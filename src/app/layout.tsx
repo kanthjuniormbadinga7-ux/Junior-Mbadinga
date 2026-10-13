@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Junior Mbadinga" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/Junior-Mbadinga/logo.svg",
   },
   openGraph: {
     title: "Junior Mbadinga — Motion Designer & Créateur Audiovisuel",
