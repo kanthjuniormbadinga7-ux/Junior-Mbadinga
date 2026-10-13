@@ -128,3 +128,21 @@ Stage Summary:
 - Sections restantes : Hero (Monteur, Motion Designer + portrait), À propos (photo + titre + lede, sans compteurs), Vidéos (3 lecteurs <video> nus, sans texte), Formation (timeline), Contact (formulaire), Footer.
 - Le travail parle de lui-même : les vidéos sont affichées sans légende, juste avec les contrôles natifs.
 - Vidéos locales <video> conservées (placeholders en place, à remplacer par les vrais .mp4 dans public/videos/). Mobile responsive. Lint propre.
+
+---
+Task ID: 7
+Agent: Z.ai Code (main)
+Task: Retirer l'image carte de l'Afrique, disposer mieux les 2 photos (portrait + about), simplifier le texte À propos, améliorer la disposition générale.
+
+Work Log:
+- Généré un nouveau poster sobre pour la vidéo AGL : image abstraite cinématographique sombre (charcoal noir + light leaks champagne, haze volumétrique, grain film) via image-generation CLI. A remplacé public/portfolio/project-agl.png (la carte de l'Afrique isométrique est supprimée).
+- Refondu la section About : photo passée de format 4/5 vertical à 4/3 HORIZONTAL, et déplacée de droite à gauche (inversion par rapport au hero). Texte déplacé à droite. Crée un rythme alterné entre hero (photo à droite, vertical) et about (photo à gauche, horizontal).
+- Simplifié le texte About : "Jeune créatif passionné, je mets mon dynamisme au service de projets audiovisuels ambitieux." → "Donner vie à vos idées, image par image." + lede "Basé à Libreville, je crée des vidéos qui marquent — du motion design au montage, en passant par le son."
+- Alignement de la grille About passé de items-start à items-center pour un meilleur équilibre vertical.
+- Vérifié via Agent Browser : hero = portrait 4/5 vertical à droite + texte à gauche ; about = photo 4/3 horizontal à gauche + texte à droite (rythme inversé confirmé) ; titre About = "Donner vie à vos idées, image par image." ; premier poster vidéo = fond abstrait sombre cinématographique (plus de carte de l'Afrique). Mobile 390px : pas d'overflow sur hero, about ET videos. Lint 0 erreur.
+
+Stage Summary:
+- Carte de l'Afrique retirée, remplacée par un poster abstrait sobre (charcoal + light leaks champagne) qui ne ressemble plus à de l'IA.
+- Les deux photos (portrait + about) sont mieux disposées : hero en vertical à droite, about en horizontal à gauche — variation de format et d'inversion qui crée du rythme.
+- Texte About simplifié : "Donner vie à vos idées, image par image." + une phrase courte.
+- Page plus équilibrée. Mobile responsive. Lint propre.

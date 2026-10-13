@@ -250,9 +250,9 @@ function About() {
   return (
     <section id="about" className="section">
       <div className="wrap">
-        <div className="grid items-start gap-12 lg:grid-cols-12">
-          <div className="reveal reveal-d1 lg:col-span-5">
-            <div className="photo-frame aspect-[4/5]">
+        <div className="grid items-center gap-12 lg:grid-cols-12">
+          <div className="reveal reveal-d1 lg:col-span-7">
+            <div className="photo-frame aspect-[4/3]">
               <img
                 src="/portfolio/about.jpg"
                 alt="Junior Mbadinga en plein travail"
@@ -261,17 +261,14 @@ function About() {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-5">
             <h2 className="display reveal reveal-d1 text-3xl sm:text-4xl md:text-5xl">
-              Jeune créatif <em className="italic text-accent">passionné</em>,
-              je mets mon dynamisme au service de projets audiovisuels
-              ambitieux.
+              Donner vie à vos idées, <em className="italic text-accent">image par image</em>.
             </h2>
 
-            <p className="lede reveal reveal-d2 mt-8 max-w-xl">
-              Basé à Libreville, j'allie sens du détail et créativité pour
-              donner vie à des idées à travers le motion design, la réalisation
-              et le sound design.
+            <p className="lede reveal reveal-d2 mt-8 max-w-md">
+              Basé à Libreville, je crée des vidéos qui marquent — du motion
+              design au montage, en passant par le son.
             </p>
           </div>
         </div>
