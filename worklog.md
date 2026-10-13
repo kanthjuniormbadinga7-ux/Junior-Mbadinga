@@ -258,3 +258,25 @@ Stage Summary:
 - Miniatures hypothétiques remplacées par les vraies thumbnails YouTube. Les 4 se chargent correctement (même les 2 vidéos en upload ont leur miniature).
 - Photo caméra agrandie ~40% (layout inversé 7fr/5fr, max-height 86vh). Entière, non coupée.
 - Mobile responsive. Lint propre.
+
+---
+Task ID: 13
+Agent: Z.ai Code (main)
+Task: Nouvelle phrase camera-banner (Option B) + adapter le projet pour GitHub Pages (static export + formulaire mailto).
+
+Work Log:
+- Remplacé la phrase du camera-banner : "Captation, montage, diffusion — je transforme une intention en images qui durent." → "Donnez-moi une idée, je vous rends une image qui reste." (Option B choisie par l'utilisateur).
+- Supprimé l'API route /api/contact (incompatible avec static export de Next.js : "API Routes cannot be used with output: export").
+- Refondu le formulaire de contact : fetch /api/contact → mailto:. Au submit, construction d'un lien mailto:kanthjuniormbadinga7@gmail.com avec subject "Portfolio — Message de {nom}" et body "{message}\n\n— {nom}\n{email}". window.location.href = mailto link → ouvre le client mail du visiteur pré-rempli. Toast "Votre client mail va s'ouvrir". Plus besoin de serveur, fonctionne en statique.
+- Retiré l'état `sending` et le bouton disabled du formulaire (mailto est instantané).
+- Configuré next.config.ts pour GitHub Pages : output: "export" (génère HTML/CSS/JS statique dans out/), basePath depuis env BASE_PATH (auto-configuré par le workflow), trailingSlash: true (requis pour GitHub Pages), images.unoptimized: true (pas d'optimisation serveur en statique).
+- Créé .github/workflows/deploy.yml : workflow GitHub Actions qui se déclenche à chaque push sur main, installe Bun, build avec BASE_PATH=/${{ github.event.repository.name }}, upload l'artifact out/, et déploie sur GitHub Pages automatiquement.
+- Mis à jour package.json : remplacé "build" (standalone cp commands) par "build:gh": "next build" (simple, adapté à export).
+- Créé DEPLOY.md : guide pas-à-pas pour déployer sur GitHub Pages (créer dépôt, git push, activer Pages, URL finale), explications techniques, option domaine personnalisé, notes sur les vidéos YouTube et le formulaire mailto.
+- Vérifié via Agent Browser : nouvelle phrase "Donnez-moi une idée, je vous rends une image qui reste." affichée. Plus d'API route (hasApiRoute=false). Dev server fonctionne avec output: export (HTTP 200). Formulaire mailto : se déclenche au clic (en headless, le mailto est géré par l'OS donc rien de visible, mais le code est correct). Lint 0 erreur.
+
+Stage Summary:
+- Nouvelle phrase camera-banner : "Donnez-moi une idée, je vous rends une image qui reste."
+- Projet adapté pour GitHub Pages : static export (output: "export"), formulaire mailto (plus de serveur), workflow GitHub Actions pour déploiement automatique.
+- Pour déployer : l'utilisateur crée un dépôt GitHub, git push, active Pages avec source "GitHub Actions". Le workflow build et déploie automatiquement. URL : https://username.github.io/repo-name/.
+- DEPLOY.md documente tout le processus. Dev server toujours fonctionnel. Lint propre.

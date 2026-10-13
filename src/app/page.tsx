@@ -338,8 +338,7 @@ function CameraBanner() {
         <div className="camera-banner-text">
           <span className="camera-banner-eyebrow">Sur le terrain</span>
           <p className="camera-banner-quote">
-            « Captation, montage, diffusion — je transforme une intention en
-            images qui durent. »
+            « Donnez-moi une idée, je vous rends une image qui reste. »
           </p>
         </div>
       </div>
@@ -525,47 +524,26 @@ function Formation() {
 
 function Contact() {
   const { toast } = useToast();
-  const [sending, setSending] = useState(false);
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      name: String(data.get("name") || ""),
-      email: String(data.get("email") || ""),
-      message: String(data.get("message") || ""),
-    };
-    setSending(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json().catch(() => null);
-      if (res.ok && json?.ok) {
-        toast({
-          title: "Message envoyé",
-          description: json.message || "Je vous réponds dès que possible.",
-        });
-        form.reset();
-      } else {
-        toast({
-          title: "Une erreur est survenue",
-          description: json?.error || "Réessayez plus tard.",
-          variant: "destructive",
-        });
-      }
-    } catch {
-      toast({
-        title: "Réseau indisponible",
-        description: "Vérifiez votre connexion et réessayez.",
-        variant: "destructive",
-      });
-    } finally {
-      setSending(false);
-    }
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
+    if (!name || !email || !message) return;
+
+    const subject = encodeURIComponent(`Portfolio — Message de ${name}`);
+    const body = encodeURIComponent(
+      `${message}\n\n— ${name}\n${email}`
+    );
+    window.location.href = `mailto:kanthjuniormbadinga7@gmail.com?subject=${subject}&body=${body}`;
+    toast({
+      title: "Votre client mail va s'ouvrir",
+      description: "Le message est pré-rempli, il ne vous reste qu'à l'envoyer.",
+    });
+    form.reset();
   };
 
   return (
@@ -663,13 +641,9 @@ function Contact() {
                 placeholder="Parlez-moi de votre projet..."
               />
             </div>
-            <button
-              type="submit"
-              disabled={sending}
-              className="btn btn-solid disabled:opacity-60"
-            >
-              {sending ? "Envoi en cours…" : "Envoyer le message"}
-              {!sending && <ArrowRight size={16} />}
+            <button type="submit" className="btn btn-solid">
+              Envoyer le message
+              <ArrowRight size={16} />
             </button>
           </form>
         </div>
