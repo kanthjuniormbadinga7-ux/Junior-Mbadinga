@@ -338,20 +338,25 @@ function About() {
    ============================================================ */
 
 function CameraBanner() {
-  const ref = useParallax<HTMLDivElement>(0.12);
+  const ref = useParallax<HTMLDivElement>(0.1);
   return (
     <section className="camera-banner reveal">
-      <div className="camera-banner-img" ref={ref}>
-        <img
-          src="/portfolio/project-live.jpg"
-          alt="Junior Mbadinga en captation, caméra à l'épaule"
-          loading="lazy"
-        />
+      <div className="camera-banner-grid">
+        <div className="camera-banner-photo" ref={ref}>
+          <img
+            src="/portfolio/project-live.jpg"
+            alt="Junior Mbadinga en captation, caméra à l'épaule"
+            loading="lazy"
+          />
+        </div>
+        <div className="camera-banner-text">
+          <span className="camera-banner-eyebrow">Sur le terrain</span>
+          <p className="camera-banner-quote">
+            « Captation, montage, diffusion — je transforme une intention en
+            images qui durent. »
+          </p>
+        </div>
       </div>
-      <div className="camera-banner-overlay" />
-      <p className="camera-banner-caption">
-        En captation — la caméra à l'épaule, le regard partout.
-      </p>
     </section>
   );
 }

@@ -217,3 +217,24 @@ Stage Summary:
 - Posters locaux pour les 4 vidéos (cohérents avec la DA sombre éditoriale) + bouton play champagne premium.
 - Avantages collatéraux : chargement de page beaucoup plus rapide (0 iframe YouTube au load), contrôle total sur l'esthétique des posters, pas de cookies YouTube au load (RGPD-friendly).
 - Mobile responsive. Lint propre.
+
+---
+Task ID: 11
+Agent: Z.ai Code (main)
+Task: Coriger photo caméra coupée (format portrait dans banner landscape) + meilleure phrase. Note: 2 vidéos YouTube encore en upload — géré gracieusement par le pattern click-to-play (poster s'affiche, vidéo dispo au clic quand upload terminé).
+
+Work Log:
+- Diagnostiqué : project-live.jpg est en format portrait vertical (1080x1920, ratio 9:16), mais le camera banner était en banner landscape plein écran avec object-fit:cover → la photo était cropée horizontalement (personnage coupé).
+- Refondu le CameraBanner en layout split éditorial : grid 2 colonnes (5fr 7fr desktop, 1fr mobile) avec photo entière à gauche + bloc texte à droite.
+- Nouveau CSS .camera-banner-photo : object-fit:contain (pas cover), width:100%, height:auto, max-height:70vh, background:#000, border-radius, filtre grayscale doux. La photo s'affiche ENTIERE (de la tête aux pieds) sans crop.
+- Nouveau CSS .camera-banner-text : eyebrow champagne "Sur le terrain" + citation en Fraunces italique (clamp 1.5-2.6rem) avec première lettre en accent champagne.
+- Nouvelle phrase : remplacé "En captation — la caméra à l'épaule, le regard partout." par "Captation, montage, diffusion — je transforme une intention en images qui durent." (plus pro, plus dense).
+- Problème technique rencontré : le CSS compilé était stale (le dev server servait l'ancien CSS avec .camera-banner-img/.camera-banner-overlay au lieu des nouvelles classes .camera-banner-grid/.camera-banner-photo). Résolu en supprimant .next et redémarrant le dev server proprement (setsid).
+- Vérifié via Agent Browser : gridCols="440px 616px" (split 2 colonnes actif), objectFit="contain" (photo non coupée), photo 438x630 (entière, tête aux pieds confirmée par VLM), citation "Captation, montage, diffusion — je transforme une intention en images qui durent." affichée. Mobile 390px : grille 1 colonne (342px), pas d'overflow. Lint 0 erreur.
+
+Stage Summary:
+- Photo caméra PLUS coupée : layout split (photo portrait à gauche entière + citation à droite).
+- Nouvelle phrase premium : "Captation, montage, diffusion — je transforme une intention en images qui durent."
+- 2 vidéos encore en upload YouTube : pas un problème, le pattern click-to-play affiche le poster et charge l'iframe au clic (la vidéo sera disponible quand YouTube aura terminé le processing).
+- Résolution lecture : YouTube sert automatiquement la meilleure qualité selon la connexion du visiteur (720p/1080p selon bande passante) — pas d'action nécessaire.
+- Mobile responsive. Lint propre.
