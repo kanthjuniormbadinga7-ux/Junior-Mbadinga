@@ -146,3 +146,26 @@ Stage Summary:
 - Les deux photos (portrait + about) sont mieux disposées : hero en vertical à droite, about en horizontal à gauche — variation de format et d'inversion qui crée du rythme.
 - Texte About simplifié : "Donner vie à vos idées, image par image." + une phrase courte.
 - Page plus équilibrée. Mobile responsive. Lint propre.
+
+---
+Task ID: 8
+Agent: Z.ai Code (main)
+Task: Supprimer toutes les vidéos, faire que les photos ne soient pas coupées, ajouter des animations fluides et premium.
+
+Work Log:
+- Supprimé le tableau VIDEOS, le composant VideoCard, la section Videos, le lien "Vidéos" de la navbar, <Videos /> + son divider du main, et tout le bloc CSS .video-card/.video-native.
+- Photos non coupées : retiré les classes aspect-[4/5] et aspect-[4/3] des wrappers photo. Mis à jour .photo-frame img en CSS : width:100%; height:auto; display:block (au lieu de object-fit:cover + height:100%). L'image conserve désormais son ratio naturel, plus de crop. Vérifié via DOM : hero naturalRatio=1.000 = displayedRatio=1.000 ; about naturalRatio=0.667 = displayedRatio=0.667 (isCropped=false pour les deux).
+- Animations premium :
+  • Reveal enrichi : opacity + translateY(34px) + scale(0.985) + blur(8px) → état visible. Duration 1.1s, easing cubic-bezier(0.16, 1, 0.3, 1) (expo-out premium). Délais stagger 0.12/0.24/0.36/0.48s.
+  • Page load fade-in : keyframes pageRise appliquée à main/navbar/footer avec délais échelonnés (navbar 0.1s, main 0.15s, footer 0.3s).
+  • Parallaxe subtile : hook useParallax<T> qui calcule la position de l'élément dans le viewport et injecte --parallax-y (en px) sur l'élément. Appliqué au portrait hero (strength 0.05) et à la photo about (strength 0.07). .photo-frame utilise transform: translate3d(0, var(--parallax-y,0), 0) avec transition douce. Respecte prefers-reduced-motion. Vérifié : valeurs changent au scroll (hero -0.98px, about 6.64px).
+  • Boutons premium : hover translateY(-3px) + scale(1.015) + box-shadow champagne diffus (0 14px 40px rgba(184,164,124,0.22)). Duration 0.5s expo-out.
+  • Photo hover : filter grayscale/desaturation + scale(1.018), duration 0.8s expo-out (plus lent, plus premium).
+  • Cadre photo hover : border-color champagne + inset réduit, duration 0.6s expo-out.
+- Vérifié via Agent Browser : sections = [hero, about, formation, contact] (plus de videos), nav = 4 liens, aucune erreur console, pas d'overflow desktop (1440) ni mobile (390 sur hero/about/contact). Photos non coupées confirmées. Parallaxe actif. Lint 0 erreur.
+
+Stage Summary:
+- Plus aucune vidéo sur le site (section, navbar, CSS, data — tout retiré).
+- Photos affichées entières à leur ratio naturel (plus de crop CSS). Hero = portrait carré 1:1, About = photo 2:3 verticale.
+- Animations premium : reveal avec fade+slide+scale+blur (expo-out 1.1s), page load fade-in échelonné, parallaxe subtile sur les 2 photos, boutons avec lift+scale+shadow, hover photos doux et lent.
+- Mobile responsive. Lint propre.

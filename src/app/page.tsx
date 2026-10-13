@@ -20,7 +20,6 @@ import {
 const NAV_LINKS = [
   { label: "Accueil", href: "#hero" },
   { label: "À propos", href: "#about" },
-  { label: "Vidéos", href: "#videos" },
   { label: "Formation", href: "#formation" },
   { label: "Contact", href: "#contact" },
 ];
@@ -37,27 +36,6 @@ const TIMELINE = [
     title: "Baccalauréat Série Littéraire",
     place: "Gabon",
     desc: "Obtention du baccalauréat série L, fondement d'une sensibilité narrative et créative.",
-  },
-];
-
-/*
- * VIDEOS — fichiers locaux compressés dans /public/videos/.
- * Déposez vos .mp4 (H.264, 720p/1080p, idéalement < 30-50 Mo)
- * dans le dossier public/videos/ avec les noms ci-dessous.
- * Le lecteur HTML5 natif s'en occupe, sans dépendance externe.
- */
-const VIDEOS = [
-  {
-    poster: "/portfolio/project-agl.png",
-    src: "/videos/spot-agl.mp4",
-  },
-  {
-    poster: "/portfolio/project-school.jpg",
-    src: "/videos/ecole-sante.mp4",
-  },
-  {
-    poster: "/portfolio/project-live.jpg",
-    src: "/videos/regie-live.mp4",
   },
 ];
 
@@ -89,6 +67,41 @@ function useScrollReveal() {
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+}
+
+/** Subtle premium parallax on an element based on its position in viewport. */
+function useParallax<T extends HTMLElement>(strength = 0.06) {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) return;
+
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        // -1 (bottom entering) → 0 (centered) → +1 (top leaving)
+        const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+        const y = Math.max(-1, Math.min(1, progress)) * strength * 100;
+        el.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [strength]);
+  return ref;
 }
 
 /* ============================================================
@@ -189,6 +202,7 @@ function Hero() {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
+  const portraitRef = useParallax<HTMLDivElement>(0.05);
 
   return (
     <section
@@ -227,8 +241,8 @@ function Hero() {
 
         {/* Portrait */}
         <div className="reveal reveal-d2 lg:col-span-5">
-          <div className="mx-auto max-w-[380px]">
-            <div className="photo-frame aspect-[4/5]">
+          <div className="mx-auto max-w-[380px]" ref={portraitRef}>
+            <div className="photo-frame">
               <img
                 src="/portfolio/portrait.jpg"
                 alt="Junior Mbadinga"
@@ -247,12 +261,13 @@ function Hero() {
    ============================================================ */
 
 function About() {
+  const photoRef = useParallax<HTMLDivElement>(0.07);
   return (
     <section id="about" className="section">
       <div className="wrap">
         <div className="grid items-center gap-12 lg:grid-cols-12">
-          <div className="reveal reveal-d1 lg:col-span-7">
-            <div className="photo-frame aspect-[4/3]">
+          <div className="reveal reveal-d1 lg:col-span-7" ref={photoRef}>
+            <div className="photo-frame">
               <img
                 src="/portfolio/about.jpg"
                 alt="Junior Mbadinga en plein travail"
@@ -271,49 +286,6 @@ function About() {
               design au montage, en passant par le son.
             </p>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   VIDEOS (lecteur HTML5 natif, fichiers locaux)
-   ============================================================ */
-
-function VideoCard({
-  video,
-  index,
-}: {
-  video: (typeof VIDEOS)[number];
-  index: number;
-}) {
-  return (
-    <article className="reveal" style={{ transitionDelay: `${index * 90}ms` }}>
-      <div className="video-card">
-        <video
-          className="video-native"
-          src={video.src}
-          poster={video.poster}
-          controls
-          preload="metadata"
-          playsInline
-        >
-          Votre navigateur ne prend pas en charge la lecture vidéo.
-        </video>
-      </div>
-    </article>
-  );
-}
-
-function Videos() {
-  return (
-    <section id="videos" className="section">
-      <div className="wrap">
-        <div className="grid gap-10 lg:gap-14">
-          {VIDEOS.map((v, i) => (
-            <VideoCard key={v.src} video={v} index={i} />
-          ))}
         </div>
       </div>
     </section>
@@ -568,8 +540,6 @@ export default function Home() {
         <Hero />
         <div className="rule" />
         <About />
-        <div className="rule" />
-        <Videos />
         <div className="rule" />
         <Formation />
         <Contact />
